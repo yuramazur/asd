@@ -30,20 +30,11 @@ public class Card {
 
 	@Override
 	public String toString() {
-		String strSuit = "";
-		String strDig = "";
-		int b = 8 - suit.toString().length();
-		int c = 5 - dig.toString().length();
-		char a = '-';
-		for (int i = 0; i < b; i++) {
-			strSuit = strSuit + a;
+		String correction = " ";
+		if (dig.getPicture().equals("10")) {
+			correction = "";
 		}
-		for (int i = 0; i < c; i++) {
-			strDig = strDig + a;
-		}
-		strSuit = strSuit + suit.toString();
-		strDig = dig.toString() + strDig;
-		return "Card [" + strDig + "--" + strSuit + "]";
+		return correction + "[" + dig.getPicture() + suit.getPicture() + "]";
 	}
 
 	@Override
@@ -70,7 +61,5 @@ public class Card {
 			return false;
 		return true;
 	}
-	
-	
 
 }

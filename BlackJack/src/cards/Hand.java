@@ -1,23 +1,23 @@
 package cards;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Hand {
 
-	private List<Card> hand;
+	private Set<Card> hand;
 	private int cardWeight;
 
 	public Hand() {
-		hand = new ArrayList<Card>();
+		hand = new TreeSet<Card>();
 		cardWeight = 0;
 	}
 
-	public List<Card> getHand() {
+	public Set<Card> getHand() {
 		return hand;
 	}
 
-	public void setHand(List<Card> hand) {
+	public void setHand(Set<Card> hand) {
 		this.hand = hand;
 	}
 

@@ -8,21 +8,16 @@ import cardsEnums.Dignity;
 import cardsEnums.Suit;
 
 public class DeckOfCards {
-	private List<Card> deck;
-	private Dignity[] arrDig;
-	private Suit[] arrSuit;
+	private List<Card> deck = new ArrayList<Card>();
+	private Dignity[] arrDig = Dignity.values();
+	private Suit[] arrSuit = Suit.values();
 
 	public DeckOfCards() {
-		this.deck = new ArrayList<Card>();
-		this.arrDig = Dignity.values();
-		this.arrSuit = Suit.values();
-		int j = 0;
-		do {
+		for (int j = 0; j < arrSuit.length; j++) {
 			for (int i = 0; i < arrDig.length; i++) {
 				deck.add(new Card(arrDig[i], arrSuit[j]));
 			}
-			j++;
-		} while (j < arrSuit.length);
+		}
 	}
 
 	public List<Card> getDeck() {
@@ -56,17 +51,18 @@ public class DeckOfCards {
 					deck.add(deck2.get(i));
 				}
 			}
+
+			for (int i = 0; i < 1000; i++) {
+				while (deck.size() != 0) {
+					num = random.nextInt(deck.size());
+					tempDeck.add(deck.get(num));
+					deck.remove(num);
+				}
+				deck.addAll(tempDeck);
+				tempDeck.clear();
+			}
 		}
 
-		for (int i = 0; i < 1000; i++) {
-			while (deck.size() != 0) {
-				num = random.nextInt(deck.size());
-				tempDeck.add(deck.get(num));
-				deck.remove(num);
-			}
-			deck.addAll(tempDeck);
-			tempDeck.clear();
-		}
 	}
 
 	@Override

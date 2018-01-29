@@ -31,7 +31,7 @@ public class Heel {
 	public void setHeel(List<Card> heel) {
 		this.heel = heel;
 	}
-    public Card getCard(){
+    public Card takeCard(){
     	Card takenCard = heel.get(0);
     	heel.remove(0);
     	return  takenCard;
