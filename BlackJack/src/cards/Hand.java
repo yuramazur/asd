@@ -6,11 +6,11 @@ import java.util.TreeSet;
 public class Hand {
 
 	private Set<Card> hand;
-	private int cardWeight;
+	private int cardPoints;
 
 	public Hand() {
 		hand = new TreeSet<Card>();
-		cardWeight = 0;
+		cardPoints = 0;
 	}
 
 	public Set<Card> getHand() {
@@ -23,16 +23,16 @@ public class Hand {
 
 	public void addCard(Card card) {
 		hand.add(card);
-		cardWeight = cardWeight + card.getDig().getDignity();
+		cardPoints = cardPoints + card.getIndex().getPoints();
 	}
 
-	public int getCardWeight() {
-		return cardWeight;
+	public int getCardPoints() {
+		return cardPoints;
 	}
 
 	@Override
 	public String toString() {
-		return "Hand [" + hand + "," + cardWeight + "]";
+		return "Hand [" + hand + "," + cardPoints + "]";
 	}
 
 }

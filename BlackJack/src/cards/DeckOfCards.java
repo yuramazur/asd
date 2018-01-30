@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import cardsEnums.Dignity;
+import cardsEnums.Index;
 import cardsEnums.Suit;
 
 public class DeckOfCards {
 	private List<Card> deck = new ArrayList<Card>();
-	private Dignity[] arrDig = Dignity.values();
+	private Index[] arrDig = Index.values();
 	private Suit[] arrSuit = Suit.values();
 
 	public DeckOfCards() {
