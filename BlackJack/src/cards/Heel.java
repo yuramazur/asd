@@ -9,7 +9,7 @@ public class Heel {
 	public Heel() {
 		heel = new ArrayList<Card>();
 		for (int i = 0; i < 6; i++) {
-			DeckOfCards deck = new DeckOfCards();
+			Deck deck = new Deck();
 			deck.shuffleDeck();
 			heel.addAll(deck.getDeck());
 		}
@@ -18,7 +18,7 @@ public class Heel {
 	public Heel(int decksAmount) {
 		heel = new ArrayList<Card>();
 		for (int i = 0; i < decksAmount; i++) {
-			DeckOfCards deck = new DeckOfCards();
+			Deck deck = new Deck();
 			deck.shuffleDeck();
 			heel.addAll(deck.getDeck());
 		}

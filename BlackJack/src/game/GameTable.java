@@ -3,16 +3,17 @@ package game;
 import cards.Hand;
 import cards.Heel;
 
-public class gameTable {
+public class GameTable {
 private Player player;
 private Heel heel;
 private Hand dealerHand = new Hand();
 private Hand playerHand = new Hand();
-private double bet = 0;
+private int bet = 0;
 
-public gameTable(Player player) {
+public GameTable(Player player) {
 	this.player = player;
 	heel = new Heel();
+	bet = 100;
 }
 
 public Player getPlayer() {
@@ -47,11 +48,11 @@ public void setPlayerHand(Hand playerHand) {
 	this.playerHand = playerHand;
 }
 
-public double getBet() {
+public int getBet() {
 	return bet;
 }
 
-public void setBet(double bet) {
+public void setBet(int bet) {
 	this.bet = bet;
 }
 

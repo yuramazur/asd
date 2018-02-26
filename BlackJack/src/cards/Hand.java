@@ -1,33 +1,48 @@
 package cards;
 
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.ArrayList;
+import java.util.List;
+
+import cardsEnums.Index;
+import exceptions.TooMuchPiontsException;
 
 public class Hand {
 
-	private Set<Card> hand;
+	private List<Card> hand;
 	private int cardPoints;
 
 	public Hand() {
-		hand = new TreeSet<Card>();
+		hand = new ArrayList<Card>();
 		cardPoints = 0;
 	}
 
-	public Set<Card> getHand() {
+	public List<Card> getHand() {
 		return hand;
 	}
 
-	public void setHand(Set<Card> hand) {
+	public void setHand(List<Card> hand) {
 		this.hand = hand;
 	}
 
-	public void addCard(Card card) {
+	public void addCard(Card card) throws TooMuchPiontsException {
 		hand.add(card);
-		cardPoints = cardPoints + card.getIndex().getPoints();
+		cardPoints += card.getIndex().getPoints();
+		if (card.getIndex().equals(Index.ACE) && cardPoints > 21) {
+			cardPoints -= 10;
+		}
+		if (cardPoints > 21) {
+			throw new TooMuchPiontsException(
+					"                                 Too Much : " + cardPoints);
+		}
 	}
 
 	public int getCardPoints() {
 		return cardPoints;
+	}
+
+	public void clear() {
+		hand.clear();
+		cardPoints = 0;
 	}
 
 	@Override

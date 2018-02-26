@@ -1,25 +1,20 @@
 package game;
 
+import exceptions.NotEnoughMoneyException;
+
 public class Player {
 
 	private String name;
-	private int age;
-	private double wallet;
+	private int wallet;
 
 	public Player(String name, int age) {
 		this.name = name;
-		if (age <= 99) {
-			this.age = age;
-		} else if (age > 99) {
-			this.age = 99;
-		}
 		this.wallet = age * 100;
 	}
 
 	public Player() {
-		this.name = "Loser";
-		this.age = 21;
-		this.wallet = 100;
+		this.name = "Name";
+		this.wallet = 200;
 	}
 
 	public String getName() {
@@ -30,20 +25,20 @@ public class Player {
 		this.name = name;
 	}
 
-	public int getAge() {
-		return age;
+	public void getBet(int bet) throws NotEnoughMoneyException {
+		if ((wallet - bet) < 0) {
+			throw new NotEnoughMoneyException("Not Enough Money, max bet - "
+					+ wallet);
+		}
+		wallet -= bet;
 	}
 
-	public void setAge(int age) {
-		this.age = age;
-	}
-
-	public double getWallet() {
+	public int getWallet() {
 		return wallet;
 	}
 
-	public void setWallet(double wallet) {
-		this.wallet = wallet;
+	public void setWallet(int bank) {
+		this.wallet += bank;
 	}
 
 	@Override
@@ -51,5 +46,4 @@ public class Player {
 		return name + " ----- wallet: " + wallet + "]";
 	}
 
-	
 }

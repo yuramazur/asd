@@ -7,12 +7,12 @@ import java.util.Random;
 import cardsEnums.Index;
 import cardsEnums.Suit;
 
-public class DeckOfCards {
+public class Deck {
 	private List<Card> deck = new ArrayList<Card>();
 	private Index[] arrDig = Index.values();
 	private Suit[] arrSuit = Suit.values();
 
-	public DeckOfCards() {
+	public Deck() {
 		for (int j = 0; j < arrSuit.length; j++) {
 			for (int i = 0; i < arrDig.length; i++) {
 				deck.add(new Card(arrDig[i], arrSuit[j]));
