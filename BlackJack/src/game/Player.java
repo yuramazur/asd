@@ -13,8 +13,8 @@ public class Player {
 	}
 
 	public Player() {
-		this.name = "Name";
-		this.wallet = 200;
+		this.name = "NoName";
+		this.wallet = 0;
 	}
 
 	public String getName() {

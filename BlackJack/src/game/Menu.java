@@ -38,6 +38,7 @@ public class Menu {
 				int number = MyScanner.menuChoice(0, saver.savesNumber());
 				if (number > 0) {
 					game.setTable(saver.download(number));
+					game.start();
 				}
 				break;
 			case 3:

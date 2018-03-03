@@ -4,57 +4,65 @@ import cards.Hand;
 import cards.Heel;
 
 public class GameTable {
-private Player player;
-private Heel heel;
-private Hand dealerHand = new Hand();
-private Hand playerHand = new Hand();
-private int bet = 0;
+	private Player player;
+	private Heel heel;
+	private Hand dealerHand = new Hand();
+	private Hand playerHand = new Hand();
+	private int bet = 0;
+	private int count = 0;
 
-public GameTable(Player player) {
-	this.player = player;
-	heel = new Heel();
-	bet = 100;
-}
+	public GameTable(Player player) {
+		this.player = player;
+		heel = new Heel();
+		bet = 100;
+	}
 
-public Player getPlayer() {
-	return player;
-}
+	public int getCount() {
+		return count;
+	}
 
-public void setPlayer(Player player) {
-	this.player = player;
-}
+	public void setCount(int count) {
+		this.count = count;
+	}
 
-public Heel getHeel() {
-	return heel;
-}
+	public Player getPlayer() {
+		return player;
+	}
 
-public void setHeel(Heel heel) {
-	this.heel = heel;
-}
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
 
-public Hand getDealerHand() {
-	return dealerHand;
-}
+	public Heel getHeel() {
+		return heel;
+	}
 
-public void setDealerHand(Hand dealerHand) {
-	this.dealerHand = dealerHand;
-}
+	public void setHeel(Heel heel) {
+		this.heel = heel;
+	}
 
-public Hand getPlayerHand() {
-	return playerHand;
-}
+	public Hand getDealerHand() {
+		return dealerHand;
+	}
 
-public void setPlayerHand(Hand playerHand) {
-	this.playerHand = playerHand;
-}
+	public void setDealerHand(Hand dealerHand) {
+		this.dealerHand = dealerHand;
+	}
 
-public int getBet() {
-	return bet;
-}
+	public Hand getPlayerHand() {
+		return playerHand;
+	}
 
-public void setBet(int bet) {
-	this.bet = bet;
-}
+	public void setPlayerHand(Hand playerHand) {
+		this.playerHand = playerHand;
+	}
 
+	public int getBet() {
+		return bet;
+	}
+
+	public void setBet(int bet) {
+		this.bet = bet;
+	}
 
 }

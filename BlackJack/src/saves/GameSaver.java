@@ -45,6 +45,8 @@ public class GameSaver {
 		sb.append(table.getPlayer().toString());
 		sb.append("_");
 		sb.append(table.getBet());
+		sb.append("_");
+		sb.append(table.getCount());
 		return sb.toString();
 
 	}
@@ -60,11 +62,12 @@ public class GameSaver {
 	private GameTable stringToTable(String line) {
 		Player player = new Player();
 		String[] arr = line.split("_");
-		if (arr.length == 4) {
+		if (arr.length == 5) {
 			player.setName(arr[1]);
 			player.setWallet(Integer.parseInt(arr[2]));
 			GameTable table = new GameTable(player);
 			table.setBet(Integer.parseInt(arr[3]));
+			table.setCount(Integer.parseInt(arr[4]));
 			return table;
 		}
 		return null;
@@ -73,7 +76,7 @@ public class GameSaver {
 	public GameTable download(int number) {
 		GameTable table = null;
 		try {
-			table = stringToTable(file.readAll().get(number-1));
+			table = stringToTable(file.readAll().get((savesNumber() - number)));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -87,9 +90,11 @@ public class GameSaver {
 			for (int i = 0; i < list.size(); i++) {
 				System.out.println((i + 1)
 						+ ")"
-						+ list.get(list.size() - 1 - i).replaceFirst("_", "  [ ")
-								.replaceFirst("_", " Wallet: ")
-								.replaceAll("_", " Bet: ") + "$ ]");
+						+ list.get(list.size() - 1 - i)
+								.replaceFirst("_", "  [ ")
+								.replaceFirst("_", " - Wallet: ")
+								.replaceFirst("_", "\\$ - Bet: ")
+								.replaceFirst("_", "\\$ - round № : ") + " ]");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

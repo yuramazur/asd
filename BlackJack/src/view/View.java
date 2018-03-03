@@ -19,6 +19,7 @@ public class View {
 		System.out
 				.println("----------------------------------------------------------");
 		for (Card card : hand.getHand()) {
+			sleep(200);
 			System.out.print(card);
 		}
 		System.out.println();
@@ -32,23 +33,35 @@ public class View {
 		for (int i = 0; i < hand.getHand().size() - 1; i++) {
 			System.out.print(hand.getHand().get(i));
 		}
+		sleep(200);
 		System.out.print("[?]");
 		System.out.println();
 		System.out
 				.println("----------------------------------------------------------");
 	}
 
-	public static void displayRoud(GameTable table) {
-		System.out.printf("| %-20s| %-10s %-5s\n", "Diller hand :",
-				" Points :", table.getDealerHand().getCardPoints());
+	public static void displayRoudPlayer(GameTable table) {
 
-		displayHand(table.getDealerHand());
 		System.out
 				.printf("| %-20s| %-10s %-5s\n", table.getPlayer().getName()
 						+ " hand :", " Points :", table.getPlayerHand()
 						.getCardPoints());
 		displayHand(table.getPlayerHand());
 
+	}
+
+	public static void displayRoudDiller(GameTable table) {
+		System.out.printf("| %-20s| %-10s %-5s\n", "Diller hand :",
+				" Points :", table.getDealerHand().getCardPoints());
+
+		displayHand(table.getDealerHand());
+	}
+
+	public static void displayBeginRoudDiller(GameTable table) {
+		System.out.printf("| %-20s| %-10s %-5s\n", "Diller hand :",
+				" Points :", table.getDealerHand().getHand().get(0).getIndex()
+						.getPoints());
+		displayDillerHand(table.getDealerHand());
 	}
 
 	public static void displayBeginRoud(GameTable table) {

@@ -8,6 +8,7 @@ import exceptions.TooMuchPiontsException;
 
 public class Game {
 	private GameTable table;
+	int count = 0;
 
 	public Game(GameTable table) {
 		this.table = table;
@@ -43,45 +44,56 @@ public class Game {
 			try {
 				table.getPlayerHand().addCard(table.getHeel().takeCard());
 			} finally {
-				View.displayBeginRoud(table);
+				View.displayRoudPlayer(table);
 			}
 		}
 	}
 
 	private void dillerTakeCard() throws TooMuchPiontsException {
 		boolean flag = true;
-		View.displayRoud(table);
+		View.sleep(750);
+		View.displayRoudDiller(table);
+		View.sleep(1500);
 		while (flag) {
 			flag = false;
-			if ((table.getDealerHand().getCardPoints() < 17 | table
-					.getDealerHand().getCardPoints() < table.getPlayerHand()
-					.getCardPoints())
-					& table.getDealerHand().getCardPoints() != table
-							.getPlayerHand().getCardPoints()) {
+			if ((table.getDealerHand().getCardPoints() < 17)
+					&& ((table.getDealerHand().getCardPoints() < table
+							.getPlayerHand().getCardPoints()) & (table
+							.getDealerHand().getCardPoints() != table
+							.getPlayerHand().getCardPoints()))) {
 				flag = true;
 				try {
 					table.getDealerHand().addCard(table.getHeel().takeCard());
 				} finally {
-					View.displayRoud(table);
+					View.displayRoudDiller(table);
+
 				}
 			}
 		}
 	}
 
 	private void endRound() {
+		View.sleep(1500);
+		View.displayRoudDiller(table);
+		View.displayRoudPlayer(table);
+
 		if (table.getDealerHand().getCardPoints() < table.getPlayerHand()
 				.getCardPoints()) {
 			table.getPlayer().setWallet(table.getBet() * 2);
 			System.out.println(" Player Win!");
+			System.out.println();
 		} else if (table.getDealerHand().getCardPoints() > table
 				.getPlayerHand().getCardPoints()) {
 			System.out.println(" Diller Win!");
+			System.out.println();
 		}
 		if (table.getDealerHand().getCardPoints() == table.getPlayerHand()
 				.getCardPoints()) {
 			table.getPlayer().setWallet(table.getBet());
 			System.out.println(" A Draw!");
+			System.out.println();
 		}
+
 	}
 
 	private void clearHands() {
@@ -108,10 +120,16 @@ public class Game {
 		}
 		if (!playerFlag) {
 			System.out.println("Diller Win!");
+			System.out.println();
+			View.displayBeginRoudDiller(table);
+			View.displayRoudPlayer(table);
 		}
 		if (playerFlag & !dillerFlag) {
 			System.out.println("Player Win!");
+			System.out.println();
 			table.getPlayer().setWallet(table.getBet() * 2);
+			View.displayRoudDiller(table);
+			View.displayRoudPlayer(table);
 		}
 		if (endFlag) {
 			endRound();
@@ -120,9 +138,9 @@ public class Game {
 
 	}
 
-	public boolean start() {
-		int count = 0;
+	public void start() {
 		boolean flag = true;
+		int count = table.getCount();
 		do {
 			View.gamesDivider(++count);
 			flag = false;
@@ -135,6 +153,6 @@ public class Game {
 		} while (flag
 				&& MyScanner
 						.getYN("One more game?( \"Y\" - to \"Yes\" ; \"N\" - to \"No\") "));
-		return flag;
+		table.setCount(count);
 	}
 }
