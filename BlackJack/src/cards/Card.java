@@ -1,7 +1,7 @@
 package cards;
 
-import cardsEnums.Index;
-import cardsEnums.Suit;
+import cards.enums.Index;
+import cards.enums.Suit;
 
 public class Card {
 	private Index index;

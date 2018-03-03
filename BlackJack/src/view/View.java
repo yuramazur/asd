@@ -8,8 +8,10 @@ public class View {
 
 	public static void menu() {
 		System.out.println(" 1) Start new Game :");
-		System.out.println(" 2) Change a bet   :");
-		System.out.println(" 3) Continue Game  :");
+		System.out.println(" 2) Download Game  :");
+		System.out.println(" 3) Save Game      :");
+		System.out.println(" 4) Change a bet   :");
+		System.out.println(" 5) Continue Game  :");
 		System.out.println(" 0) Exit           :");
 	}
 
@@ -87,5 +89,24 @@ public class View {
 
 		System.out
 				.println("----------------------------------------------------------");
+	}
+
+	public static void changingHeel() {
+		try {
+			System.out.println("----- Heel needs to be changed -----");
+			Thread.sleep(1000);
+			System.out.println("----- Dealer changing the Heel -----");
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void sleep(int sleep) {
+		try {
+			Thread.sleep(sleep);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }

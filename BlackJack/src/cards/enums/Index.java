@@ -1,4 +1,4 @@
-package cardsEnums;
+package cards.enums;
 
 public enum Index {
 

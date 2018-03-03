@@ -3,7 +3,7 @@ package cards;
 import java.util.ArrayList;
 import java.util.List;
 
-import cardsEnums.Index;
+import cards.enums.Index;
 import exceptions.TooMuchPiontsException;
 
 public class Hand {

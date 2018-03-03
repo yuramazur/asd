@@ -43,7 +43,7 @@ public class Player {
 
 	@Override
 	public String toString() {
-		return name + " ----- wallet: " + wallet + "]";
+		return name + "_" + wallet;
 	}
 
 }

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import cardsEnums.Index;
-import cardsEnums.Suit;
+import cards.enums.Index;
+import cards.enums.Suit;
 
 public class Deck {
 	private List<Card> deck = new ArrayList<Card>();
