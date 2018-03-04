@@ -30,7 +30,7 @@ public class Card {
 
 	@Override
 	public String toString() {
-		
-		return "["+ index.getPicture() + suit.getPicture() + "]";
+
+		return "[" + index.getPicture() + suit.getPicture() + "]";
 	}
 }

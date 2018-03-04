@@ -6,8 +6,8 @@ import cards.Card;
 
 public class Game {
 	private GameTable table;
-	int count = 0;
-	double bank = 0.0;
+	private double bank = 0.0;
+	boolean bonus = false;
 
 	public Game(GameTable table) {
 		this.table = table;
@@ -26,7 +26,30 @@ public class Game {
 		this.table = table;
 	}
 
+	private void clearHands() {
+		table.getPlayerHand().clear();
+		table.getDealerHand().clear();
+	}
+
+	private void win() {
+		if (bonus) {
+			bank *= 1.5;
+		}
+		table.getPlayer().setWallet(bank);
+		View.displayWinLoseMessage(bank, true);
+	}
+
+	private void lose() {
+		table.getPlayer().getBet(table.getBet());
+		View.displayWinLoseMessage(table.getBet(), false);
+	}
+
+	private void draw() {
+		View.displayDraw();
+	}
+
 	private boolean beginRound() {
+		bonus = false;
 		Card card;
 		for (int i = 0; i < 2; i++) {
 			card = table.getHeel().takeCard();
@@ -36,22 +59,25 @@ public class Game {
 		}
 		if (table.getPlayerHand().getCardPoints() == 21) {
 			if (table.getDealerHand().getHand().get(0).getIndex().getPoints() < 10) {
-				System.out.println("---- BLACK JACK ----");
-				table.getPlayer().setWallet(bank * 1.25);
+				View.diaplayMessage("BLACK", "JACK");
+				bonus = true;
+				win();
 				View.displayBeginRoud(table);
 				return false;
 			}
 			if (table.getDealerHand().getHand().get(0).getIndex().getPoints() == 11) {
-				System.out.println("Continue or win 1 to 1 ? :");
-				if (!MyScanner.getYN(View.winOneToOneMasege())) {
+				View.displayBeginRoud(table);
+				View.displayWinOneToOneMessage();
+				if (!MyScanner.getYN(View.winOneToOneMessage())) {
 					table.getPlayer().setWallet(bank);
-					View.displayBeginRoud(table);
+					bonus = false;
+					win();
 					return false;
 				}
-				bank *= 1.25;
+				bonus = true;
 			}
 			if (table.getDealerHand().getHand().get(0).getIndex().getPoints() == 10) {
-				bank *= 1.25;
+				bonus = true;
 			}
 		}
 		View.displayBeginRoud(table);
@@ -59,25 +85,30 @@ public class Game {
 	}
 
 	private boolean playerTakeCard() {
-		while (MyScanner.getYN(View.raundMasege())) {
+		View.diaplayMessage(table.getPlayer().getName(), "Begin");
+		while (MyScanner.getYN(View.raundMessage())) {
 			table.getPlayerHand().addCard(table.getHeel().takeCard());
 			if (table.getPlayerHand().getCardPoints() == 21) {
 				View.displayRoudPlayer(table);
+				View.diaplayMessage(table.getPlayer().getName(), "End");
 				return true;
 			}
 			if (table.getPlayerHand().getCardPoints() > 21) {
 				View.displayRoudPlayer(table);
+				View.displayBusted(table.getPlayerHand());
+				View.diaplayMessage(table.getPlayer().getName(), "End");
+				lose();
 				return false;
 			}
 			View.displayRoudPlayer(table);
 		}
+		View.diaplayMessage(table.getPlayer().getName(), "End");
 		return true;
 	}
 
 	private boolean dillerTakeCard() {
 		boolean flag = true;
-		System.out.println("---- Diller Begin ----");
-		System.out.println();
+		View.diaplayMessage("Diller", "Begin");
 		View.displayRoudDiller(table);
 		if (table.getDealerHand().getCardPoints() >= 17
 				& table.getDealerHand().getCardPoints() > table.getPlayerHand()
@@ -95,30 +126,27 @@ public class Game {
 		}
 		if (table.getDealerHand().getCardPoints() > 21) {
 			System.out.println();
-			table.getPlayer().setWallet(bank);
+			View.displayBusted(table.getDealerHand());
+			View.diaplayMessage("Diller", "End");
+			win();
 			return false;
 		}
-		System.out.println("---- Diller Eng ----");
-		System.out.println();
+		View.diaplayMessage("Diller", "End");
 		return true;
 	}
 
 	private void endRound() {
 		if (table.getDealerHand().getCardPoints() < table.getPlayerHand()
 				.getCardPoints()) {
-			table.getPlayer().setWallet(bank);
-			System.out.println(" Player Win!");
-			System.out.println();
+
+			win();
 		} else if (table.getDealerHand().getCardPoints() > table
 				.getPlayerHand().getCardPoints()) {
-			System.out.println(" Diller Win!");
-			System.out.println();
+			lose();
 		}
 		if (table.getDealerHand().getCardPoints() == table.getPlayerHand()
 				.getCardPoints() & table.getDealerHand().getCardPoints() >= 17) {
-			table.getPlayer().setWallet(bank / 2);
-			System.out.println(" A Draw!");
-			System.out.println();
+			draw();
 		}
 		View.sleep(500);
 		View.displayRoudDiller(table);
@@ -126,19 +154,19 @@ public class Game {
 
 	}
 
-	private void clearHands() {
-		table.getPlayerHand().clear();
-		table.getDealerHand().clear();
-	}
-
 	private boolean startRound() {
 		int count = table.getCount();
 		View.gamesDivider(++count);
 		View.displayTable(table);
-		bank = table.getBet() * 2;
-		if (!table.getPlayer().getBet(table.getBet())) {
+
+		if (table.getPlayer().getWallet() < table.getBet()) {
+			if (table.getPlayer().getWallet() == 0) {
+				View.displayWalletEnd();
+			}
+			View.displayWalletProblem(table);
 			return false;
 		}
+		bank = table.getBet();
 		clearHands();
 		if (beginRound()) {
 			if (playerTakeCard()) {
@@ -153,7 +181,8 @@ public class Game {
 	}
 
 	public void startGame() {
-		while ((MyScanner.getYN(View.gameMasege())) && (startRound())) {
+		View.displayTable(table);
+		while ((MyScanner.getYN(View.gameMessage())) && (startRound())) {
 
 		}
 	}

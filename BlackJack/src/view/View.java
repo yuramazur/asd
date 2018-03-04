@@ -15,16 +15,64 @@ public class View {
 		System.out.println(" 0) Exit           :");
 	}
 
-	public static String gameMasege() {
-		return "One more game? ( \"Y\" - to \"Yes\" ; \"N\" - to \"No\")";
+	public static String gameMessage() {
+		return "Deal Cards? ( \"Y\" - to \"Yes\" ; \"N\" - to \"No\")";
 	}
 
-	public static String raundMasege() {
-		return "Take another Card? ( \"Y\" - to \"Yes\" ; \"N\" - to \"No\") ";
+	public static String raundMessage() {
+		return "Take Card? ( \"Y\" - to \"Yes\" ; \"N\" - to \"No\") ";
 	}
 
-	public static String winOneToOneMasege() {
+	public static String winOneToOneMessage() {
 		return "Continue? (\"Y\" - to \"Yes\" ; \"N\" - to \" Win 1 to 1\"";
+	}
+
+	public static void displayWinOneToOneMessage() {
+		System.out.println();
+		System.out.println("Continue or win 1 to 1 ? :");
+		System.out.println();
+	}
+
+	public static void diaplayMessage(String str1, String str2) {
+		System.out.println();
+		System.out.println("------------- " + str1 + " " + str2
+				+ " -------------");
+		System.out.println();
+	}
+
+	public static void displayWalletProblem(GameTable table) {
+		System.out.println("----------- Not Enough Money ----------- ");
+		System.out.println(" Wallet : " + table.getPlayer().getWallet()
+				+ "$ ---- Bet : " + table.getBet() + "$");
+		System.out.println("-----------    Change Bet    ----------- ");
+	}
+
+	public static void displayWalletEnd() {
+		System.out.println("--------You lose all your money!--------- ");
+		System.out.println("-----------    Go Home =)    ----------- ");
+	}
+
+	public static void displayWinLoseMessage(double bank, boolean win) {
+		System.out.println();
+		if (win) {
+			System.out.println("------------- You Win ------------- " + bank
+					+ "$");
+		} else {
+			System.out.println("------------- You Loes ------------- " + bank
+					+ "$");
+		}
+		System.out.println();
+	}
+
+	public static void displayDraw() {
+		System.out.println();
+		System.out.println("-------------   Stay  ------------- ");
+		System.out.println();
+	}
+
+	public static void displayBusted(Hand hand) {
+		System.out.println("------------- Busted! ------------- Points: "
+				+ hand.getCardPoints());
 	}
 
 	public static void displayHand(Hand hand) {

@@ -14,7 +14,7 @@ public class Deck {
 
 	public Deck() {
 		for (int j = 0; j < arrSuit.length; j++) {
-			for (int i = 0; i < arrDig.length-1; i++) {
+			for (int i = 0; i < arrDig.length - 1; i++) {
 				deck.add(new Card(arrDig[i], arrSuit[j]));
 			}
 		}
@@ -72,7 +72,7 @@ public class Deck {
 		for (int i = 0; i < deck.size(); i++) {
 			str = str + deck.get(i).toString() + " ";
 			count++;
-			if (count == arrDig.length-1) {
+			if (count == arrDig.length - 1) {
 				str = str + '\n';
 				count = 0;
 			}

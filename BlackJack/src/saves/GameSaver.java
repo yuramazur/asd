@@ -64,9 +64,9 @@ public class GameSaver {
 		String[] arr = line.split("_");
 		if (arr.length == 5) {
 			player.setName(arr[1]);
-			player.setWallet(Integer.parseInt(arr[2]));
+			player.setWallet(Double.parseDouble(arr[2]));
 			GameTable table = new GameTable(player);
-			table.setBet(Integer.parseInt(arr[3]));
+			table.setBet(Double.parseDouble(arr[3]));
 			table.setCount(Integer.parseInt(arr[4]));
 			return table;
 		}

@@ -1,7 +1,8 @@
 package cards.enums;
 
 public enum Suit {
-	CLUBS(0,"\u2663"), DIAMONDS(1,"\u2666"), HEARTS(2,"\u2665"), SPADES(3,"\u2660");
+	CLUBS(0, "\u2663"), DIAMONDS(1, "\u2666"), HEARTS(2, "\u2665"), SPADES(3,
+			"\u2660");
 
 	private String picture;
 	private int priority;

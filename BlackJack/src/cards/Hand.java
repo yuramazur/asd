@@ -32,10 +32,11 @@ public class Hand {
 
 	public int addCard(Card card) {
 		hand.add(card);
+
 		if (cardPoints() > 21) {
-			for (Card handCard : hand) {
-				if (handCard.getIndex().getPoints() == 11) {
-					handCard.setIndex(Index.ACE1);
+			for (int i = 0; i < hand.size(); i++) {
+				if (hand.get(i).getIndex().getPoints() == 11) {
+					hand.set(i, new Card(Index.ACE1, hand.get(i).getSuit()));
 					break;
 				}
 			}
