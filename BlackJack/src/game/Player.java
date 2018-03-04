@@ -1,6 +1,5 @@
 package game;
 
-import exceptions.NotEnoughMoneyException;
 
 public class Player {
 
@@ -25,12 +24,12 @@ public class Player {
 		this.name = name;
 	}
 
-	public void getBet(double bet) throws NotEnoughMoneyException {
+	public boolean getBet(double bet) {
 		if ((wallet - bet) < 0) {
-			throw new NotEnoughMoneyException("Not Enough Money, max bet - "
-					+ wallet);
+			return false;
 		}
 		wallet -= bet;
+		return true;
 	}
 
 	public double getWallet() {

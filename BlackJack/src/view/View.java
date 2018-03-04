@@ -15,6 +15,18 @@ public class View {
 		System.out.println(" 0) Exit           :");
 	}
 
+	public static String gameMasege() {
+		return "One more game? ( \"Y\" - to \"Yes\" ; \"N\" - to \"No\")";
+	}
+
+	public static String raundMasege() {
+		return "Take another Card? ( \"Y\" - to \"Yes\" ; \"N\" - to \"No\") ";
+	}
+
+	public static String winOneToOneMasege() {
+		return "Continue? (\"Y\" - to \"Yes\" ; \"N\" - to \" Win 1 to 1\"";
+	}
+
 	public static void displayHand(Hand hand) {
 		System.out
 				.println("----------------------------------------------------------");

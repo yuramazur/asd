@@ -26,7 +26,7 @@ public class Menu {
 				System.out.println("Enter player age :");
 				int age = MyScanner.inputIntNumbers();
 				game = new Game(name, age);
-				game.start();
+				game.startGame();
 				break;
 
 			case 2:
@@ -38,7 +38,7 @@ public class Menu {
 				int number = MyScanner.menuChoice(0, saver.savesNumber());
 				if (number > 0) {
 					game.setTable(saver.download(number));
-					game.start();
+					game.startGame();
 				}
 				break;
 			case 3:
@@ -60,7 +60,7 @@ public class Menu {
 						+ game.getTable().getBet());
 				break;
 			case 5:
-				game.start();
+				game.startGame();
 				break;
 			case 0:
 				swch = false;

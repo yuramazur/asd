@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cards.enums.Index;
-import exceptions.TooMuchPiontsException;
 
 public class Hand {
 
@@ -23,7 +22,7 @@ public class Hand {
 		this.hand = hand;
 	}
 
-	public int cardPoints() {
+	private int cardPoints() {
 		int points = 0;
 		for (Card card : hand) {
 			points += card.getIndex().getPoints();
@@ -31,9 +30,8 @@ public class Hand {
 		return points;
 	}
 
-	public void addCard(Card card) throws TooMuchPiontsException {
+	public int addCard(Card card) {
 		hand.add(card);
-
 		if (cardPoints() > 21) {
 			for (Card handCard : hand) {
 				if (handCard.getIndex().getPoints() == 11) {
@@ -42,12 +40,7 @@ public class Hand {
 				}
 			}
 		}
-
-		if (cardPoints() > 21) {
-			throw new TooMuchPiontsException(
-					"                                 Too Much : "
-							+ cardPoints());
-		}
+		return cardPoints();
 	}
 
 	public int getCardPoints() {

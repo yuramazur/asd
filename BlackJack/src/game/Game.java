@@ -3,8 +3,6 @@ package game;
 import scanner.MyScanner;
 import view.View;
 import cards.Card;
-import exceptions.NotEnoughMoneyException;
-import exceptions.TooMuchPiontsException;
 
 public class Game {
 	private GameTable table;
@@ -28,7 +26,7 @@ public class Game {
 		this.table = table;
 	}
 
-	private void beginRound() throws TooMuchPiontsException {
+	private boolean beginRound() {
 		Card card;
 		for (int i = 0; i < 2; i++) {
 			card = table.getHeel().takeCard();
@@ -36,51 +34,76 @@ public class Game {
 			card = table.getHeel().takeCard();
 			table.getDealerHand().addCard(card);
 		}
-		View.displayBeginRoud(table);
-	}
-
-	private void playerTakeCard() throws TooMuchPiontsException {
-		System.out.println("---- Player Begin ----");
-
-		while (table.getPlayerHand().getCardPoints() < 21
-				&& MyScanner
-						.getYN("Take another Card?( \"Y\" - to \"Yes\" ; \"N\" - to \"No\") ")) {
-			try {
-				table.getPlayerHand().addCard(table.getHeel().takeCard());
-			} finally {
-				View.displayRoudPlayer(table);
+		if (table.getPlayerHand().getCardPoints() == 21) {
+			if (table.getDealerHand().getHand().get(0).getIndex().getPoints() < 10) {
+				System.out.println("---- BLACK JACK ----");
+				table.getPlayer().setWallet(bank * 1.25);
+				View.displayBeginRoud(table);
+				return false;
+			}
+			if (table.getDealerHand().getHand().get(0).getIndex().getPoints() == 11) {
+				System.out.println("Continue or win 1 to 1 ? :");
+				if (!MyScanner.getYN(View.winOneToOneMasege())) {
+					table.getPlayer().setWallet(bank);
+					View.displayBeginRoud(table);
+					return false;
+				}
+				bank *= 1.25;
+			}
+			if (table.getDealerHand().getHand().get(0).getIndex().getPoints() == 10) {
+				bank *= 1.25;
 			}
 		}
-		System.out.println("---- Player End ----");
+		View.displayBeginRoud(table);
+		return true;
 	}
 
-	private void dillerTakeCard() throws TooMuchPiontsException {
+	private boolean playerTakeCard() {
+		while (MyScanner.getYN(View.raundMasege())) {
+			table.getPlayerHand().addCard(table.getHeel().takeCard());
+			if (table.getPlayerHand().getCardPoints() == 21) {
+				View.displayRoudPlayer(table);
+				return true;
+			}
+			if (table.getPlayerHand().getCardPoints() > 21) {
+				View.displayRoudPlayer(table);
+				return false;
+			}
+			View.displayRoudPlayer(table);
+		}
+		return true;
+	}
+
+	private boolean dillerTakeCard() {
 		boolean flag = true;
 		System.out.println("---- Diller Begin ----");
+		System.out.println();
 		View.displayRoudDiller(table);
-		if (table.getDealerHand().cardPoints() >= 17
+		if (table.getDealerHand().getCardPoints() >= 17
 				& table.getDealerHand().getCardPoints() > table.getPlayerHand()
 						.getCardPoints()) {
 			flag = false;
 		}
 		while (flag) {
 			flag = false;
-			try {
-				if (table.getDealerHand().getCardPoints() < 17) {
-					flag = true;
-					table.getDealerHand().addCard(table.getHeel().takeCard());
-
-				}
-			} finally {
+			if (table.getDealerHand().getCardPoints() < 17) {
+				flag = true;
+				table.getDealerHand().addCard(table.getHeel().takeCard());
 				View.sleep(750);
 				View.displayRoudDiller(table);
 			}
 		}
+		if (table.getDealerHand().getCardPoints() > 21) {
+			System.out.println();
+			table.getPlayer().setWallet(bank);
+			return false;
+		}
 		System.out.println("---- Diller Eng ----");
+		System.out.println();
+		return true;
 	}
 
 	private void endRound() {
-
 		if (table.getDealerHand().getCardPoints() < table.getPlayerHand()
 				.getCardPoints()) {
 			table.getPlayer().setWallet(bank);
@@ -108,82 +131,30 @@ public class Game {
 		table.getDealerHand().clear();
 	}
 
-	private void startRound() throws NotEnoughMoneyException {
+	private boolean startRound() {
+		int count = table.getCount();
+		View.gamesDivider(++count);
 		View.displayTable(table);
-		table.getPlayer().getBet(table.getBet());
+		bank = table.getBet() * 2;
+		if (!table.getPlayer().getBet(table.getBet())) {
+			return false;
+		}
 		clearHands();
-		boolean endFlag = false;
-		boolean playerFlag = false;
-		boolean dillerFlag = false;
-		try {
-			beginRound();
-			if (table.getPlayerHand().getCardPoints() == 21) {
-				if (table.getDealerHand().getHand().get(0).getIndex()
-						.getPoints() < 10) {
-					System.out.println("---- BLACK JACK ----");
-					table.getPlayer().setWallet(bank * 1.25);
-					View.displayTable(table);
-					return;
-				}
-				if (table.getDealerHand().getHand().get(0).getIndex()
-						.getPoints() == 11) {
-					System.out.println("Continue or win 1 to 1 :");
-					if (!MyScanner
-							.getYN("\"Y\" - to \"Continue\" ; \"N\" - to \" Win 1 to 1\"")) {
-						table.getPlayer().setWallet(bank);
-						View.displayTable(table);
-						return;
-					}
-					bank *= 1.25;
-				}
-				if (table.getDealerHand().getHand().get(0).getIndex()
-						.getPoints() == 10) {
-					bank *= 1.25;
+		if (beginRound()) {
+			if (playerTakeCard()) {
+				if (dillerTakeCard()) {
+					endRound();
 				}
 			}
-			playerTakeCard();
-			playerFlag = true;
-			dillerTakeCard();
-			dillerFlag = true;
-			endFlag = true;
-		} catch (TooMuchPiontsException e) {
-			System.out.println(e.getMessage());
-		}
-		if (!playerFlag) {
-			System.out.println("Diller Win!");
-			System.out.println();
-			View.displayBeginRoud(table);
-		}
-		if (playerFlag & !dillerFlag) {
-			System.out.println("Player Win!");
-			System.out.println();
-			table.getPlayer().setWallet(bank);
-			View.displayRoudDiller(table);
-			View.displayRoudPlayer(table);
-		}
-		if (endFlag) {
-			endRound();
 		}
 		View.displayTable(table);
-
+		table.setCount(count);
+		return true;
 	}
 
-	public void start() {
-		boolean flag = true;
-		int count = table.getCount();
-		do {
-			View.gamesDivider(++count);
-			flag = false;
-			bank = table.getBet() * 2;
-			try {
-				startRound();
-				flag = true;
-			} catch (NotEnoughMoneyException e) {
-				System.err.println(e.getMessage());
-			}
-		} while (flag
-				&& MyScanner
-						.getYN("One more game?( \"Y\" - to \"Yes\" ; \"N\" - to \"No\") "));
-		table.setCount(count);
+	public void startGame() {
+		while ((MyScanner.getYN(View.gameMasege())) && (startRound())) {
+
+		}
 	}
 }
