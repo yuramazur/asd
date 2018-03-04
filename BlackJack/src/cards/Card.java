@@ -30,13 +30,7 @@ public class Card {
 
 	@Override
 	public String toString() {
-		String correction = " ";
-		if (index.getPicture().equals("10")) {
-			correction = "";
-		}
-		return correction + "[" + index.getPicture() + suit.getPicture() + "]";
+		
+		return "["+ index.getPicture() + suit.getPicture() + "]";
 	}
-
-
-
 }

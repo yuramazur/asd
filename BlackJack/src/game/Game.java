@@ -9,6 +9,7 @@ import exceptions.TooMuchPiontsException;
 public class Game {
 	private GameTable table;
 	int count = 0;
+	double bank = 0.0;
 
 	public Game(GameTable table) {
 		this.table = table;
@@ -39,47 +40,50 @@ public class Game {
 	}
 
 	private void playerTakeCard() throws TooMuchPiontsException {
-		while (MyScanner
-				.getYN("Take another Card?( \"Y\" - to \"Yes\" ; \"N\" - to \"No\") ")) {
+		System.out.println("---- Player Begin ----");
+
+		while (table.getPlayerHand().getCardPoints() < 21
+				&& MyScanner
+						.getYN("Take another Card?( \"Y\" - to \"Yes\" ; \"N\" - to \"No\") ")) {
 			try {
 				table.getPlayerHand().addCard(table.getHeel().takeCard());
 			} finally {
 				View.displayRoudPlayer(table);
 			}
 		}
+		System.out.println("---- Player End ----");
 	}
 
 	private void dillerTakeCard() throws TooMuchPiontsException {
 		boolean flag = true;
-		View.sleep(750);
+		System.out.println("---- Diller Begin ----");
 		View.displayRoudDiller(table);
-		View.sleep(1500);
+		if (table.getDealerHand().cardPoints() >= 17
+				& table.getDealerHand().getCardPoints() > table.getPlayerHand()
+						.getCardPoints()) {
+			flag = false;
+		}
 		while (flag) {
 			flag = false;
-			if ((table.getDealerHand().getCardPoints() < 17)
-					&& ((table.getDealerHand().getCardPoints() < table
-							.getPlayerHand().getCardPoints()) & (table
-							.getDealerHand().getCardPoints() != table
-							.getPlayerHand().getCardPoints()))) {
-				flag = true;
-				try {
+			try {
+				if (table.getDealerHand().getCardPoints() < 17) {
+					flag = true;
 					table.getDealerHand().addCard(table.getHeel().takeCard());
-				} finally {
-					View.displayRoudDiller(table);
 
 				}
+			} finally {
+				View.sleep(750);
+				View.displayRoudDiller(table);
 			}
 		}
+		System.out.println("---- Diller Eng ----");
 	}
 
 	private void endRound() {
-		View.sleep(1500);
-		View.displayRoudDiller(table);
-		View.displayRoudPlayer(table);
 
 		if (table.getDealerHand().getCardPoints() < table.getPlayerHand()
 				.getCardPoints()) {
-			table.getPlayer().setWallet(table.getBet() * 2);
+			table.getPlayer().setWallet(bank);
 			System.out.println(" Player Win!");
 			System.out.println();
 		} else if (table.getDealerHand().getCardPoints() > table
@@ -88,11 +92,14 @@ public class Game {
 			System.out.println();
 		}
 		if (table.getDealerHand().getCardPoints() == table.getPlayerHand()
-				.getCardPoints()) {
-			table.getPlayer().setWallet(table.getBet());
+				.getCardPoints() & table.getDealerHand().getCardPoints() >= 17) {
+			table.getPlayer().setWallet(bank / 2);
 			System.out.println(" A Draw!");
 			System.out.println();
 		}
+		View.sleep(500);
+		View.displayRoudDiller(table);
+		View.displayRoudPlayer(table);
 
 	}
 
@@ -110,6 +117,30 @@ public class Game {
 		boolean dillerFlag = false;
 		try {
 			beginRound();
+			if (table.getPlayerHand().getCardPoints() == 21) {
+				if (table.getDealerHand().getHand().get(0).getIndex()
+						.getPoints() < 10) {
+					System.out.println("---- BLACK JACK ----");
+					table.getPlayer().setWallet(bank * 1.25);
+					View.displayTable(table);
+					return;
+				}
+				if (table.getDealerHand().getHand().get(0).getIndex()
+						.getPoints() == 11) {
+					System.out.println("Continue or win 1 to 1 :");
+					if (!MyScanner
+							.getYN("\"Y\" - to \"Continue\" ; \"N\" - to \" Win 1 to 1\"")) {
+						table.getPlayer().setWallet(bank);
+						View.displayTable(table);
+						return;
+					}
+					bank *= 1.25;
+				}
+				if (table.getDealerHand().getHand().get(0).getIndex()
+						.getPoints() == 10) {
+					bank *= 1.25;
+				}
+			}
 			playerTakeCard();
 			playerFlag = true;
 			dillerTakeCard();
@@ -121,13 +152,12 @@ public class Game {
 		if (!playerFlag) {
 			System.out.println("Diller Win!");
 			System.out.println();
-			View.displayBeginRoudDiller(table);
-			View.displayRoudPlayer(table);
+			View.displayBeginRoud(table);
 		}
 		if (playerFlag & !dillerFlag) {
 			System.out.println("Player Win!");
 			System.out.println();
-			table.getPlayer().setWallet(table.getBet() * 2);
+			table.getPlayer().setWallet(bank);
 			View.displayRoudDiller(table);
 			View.displayRoudPlayer(table);
 		}
@@ -144,6 +174,7 @@ public class Game {
 		do {
 			View.gamesDivider(++count);
 			flag = false;
+			bank = table.getBet() * 2;
 			try {
 				startRound();
 				flag = true;

@@ -8,7 +8,7 @@ public class GameTable {
 	private Heel heel;
 	private Hand dealerHand = new Hand();
 	private Hand playerHand = new Hand();
-	private int bet = 0;
+	private double bet = 0;
 	private int count = 0;
 
 	public GameTable(Player player) {
@@ -57,11 +57,11 @@ public class GameTable {
 		this.playerHand = playerHand;
 	}
 
-	public int getBet() {
+	public double getBet() {
 		return bet;
 	}
 
-	public void setBet(int bet) {
+	public void setBet(double bet) {
 		this.bet = bet;
 	}
 

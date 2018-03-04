@@ -51,10 +51,10 @@ public class Menu {
 				System.out.println(" 4) Change a bet   :");
 				System.out.println(" Current bet is : "
 						+ game.getTable().getBet());
-				System.out.println(" Enter a number from : 1 to "
+				System.out.println(" Enter a number from : 10 to "
 						+ game.getTable().getPlayer().getWallet());
-				int bet = MyScanner.menuChoice(1, game.getTable().getPlayer()
-						.getWallet());
+				double bet = MyScanner.menuChoice(10, (int) game.getTable()
+						.getPlayer().getWallet());
 				game.getTable().setBet(bet);
 				System.out.println(" Current bet is : "
 						+ game.getTable().getBet());

@@ -5,7 +5,7 @@ import exceptions.NotEnoughMoneyException;
 public class Player {
 
 	private String name;
-	private int wallet;
+	private double wallet;
 
 	public Player(String name, int age) {
 		this.name = name;
@@ -25,7 +25,7 @@ public class Player {
 		this.name = name;
 	}
 
-	public void getBet(int bet) throws NotEnoughMoneyException {
+	public void getBet(double bet) throws NotEnoughMoneyException {
 		if ((wallet - bet) < 0) {
 			throw new NotEnoughMoneyException("Not Enough Money, max bet - "
 					+ wallet);
@@ -33,11 +33,11 @@ public class Player {
 		wallet -= bet;
 	}
 
-	public int getWallet() {
+	public double getWallet() {
 		return wallet;
 	}
 
-	public void setWallet(int bank) {
+	public void setWallet(double bank) {
 		this.wallet += bank;
 	}
 

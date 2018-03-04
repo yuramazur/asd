@@ -30,9 +30,7 @@ public class View {
 	private static void displayDillerHand(Hand hand) {
 		System.out
 				.println("----------------------------------------------------------");
-		for (int i = 0; i < hand.getHand().size() - 1; i++) {
-			System.out.print(hand.getHand().get(i));
-		}
+		System.out.print(hand.getHand().get(0));
 		sleep(200);
 		System.out.print("[?]");
 		System.out.println();
@@ -59,8 +57,7 @@ public class View {
 
 	public static void displayBeginRoudDiller(GameTable table) {
 		System.out.printf("| %-20s| %-10s %-5s\n", "Diller hand :",
-				" Points :", table.getDealerHand().getHand().get(0).getIndex()
-						.getPoints());
+				" Points :", table.getDealerHand().getCardPoints());
 		displayDillerHand(table.getDealerHand());
 	}
 

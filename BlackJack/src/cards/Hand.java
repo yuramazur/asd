@@ -9,11 +9,10 @@ import exceptions.TooMuchPiontsException;
 public class Hand {
 
 	private List<Card> hand;
-	private int cardPoints;
 
 	public Hand() {
 		hand = new ArrayList<Card>();
-		cardPoints = 0;
+
 	}
 
 	public List<Card> getHand() {
@@ -24,30 +23,45 @@ public class Hand {
 		this.hand = hand;
 	}
 
+	public int cardPoints() {
+		int points = 0;
+		for (Card card : hand) {
+			points += card.getIndex().getPoints();
+		}
+		return points;
+	}
+
 	public void addCard(Card card) throws TooMuchPiontsException {
 		hand.add(card);
-		cardPoints += card.getIndex().getPoints();
-		if (card.getIndex().equals(Index.ACE) && cardPoints > 21) {
-			cardPoints -= 10;
+
+		if (cardPoints() > 21) {
+			for (Card handCard : hand) {
+				if (handCard.getIndex().getPoints() == 11) {
+					handCard.setIndex(Index.ACE1);
+					break;
+				}
+			}
 		}
-		if (cardPoints > 21) {
+
+		if (cardPoints() > 21) {
 			throw new TooMuchPiontsException(
-					"                                 Too Much : " + cardPoints);
+					"                                 Too Much : "
+							+ cardPoints());
 		}
 	}
 
 	public int getCardPoints() {
-		return cardPoints;
+		return cardPoints();
 	}
 
 	public void clear() {
 		hand.clear();
-		cardPoints = 0;
+
 	}
 
 	@Override
 	public String toString() {
-		return "Hand [" + hand + "," + cardPoints + "]";
+		return "Hand [" + hand + "," + cardPoints() + "]";
 	}
 
 }
